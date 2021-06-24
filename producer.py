@@ -224,7 +224,7 @@ class stream_listener(StreamListener):
         
       
 
-producer = KafkaProducer(bootstrap_servers='localhost:29092')
+producer = KafkaProducer(bootstrap_servers='localhost:9092')
 l = stream_listener()
 
 try:

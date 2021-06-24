@@ -10,8 +10,8 @@ from json import loads
 
 consumer = KafkaConsumer(
     'basic',
-     bootstrap_servers=['localhost:29092'],
-     auto_offset_reset= 'latest', # 'earliest', # Start from last consumed, #'latest' start from last produce
+     bootstrap_servers=['localhost:9092'],
+     auto_offset_reset= 'latest', # 'earliest' #'latest' 
      enable_auto_commit=True,
      auto_commit_interval_ms = 1000, #ms # Ok. cuz our messages come every 5 seconds
      group_id='elastic_search',
