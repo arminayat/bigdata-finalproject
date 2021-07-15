@@ -61,3 +61,11 @@ rows = session.execute(f"""SELECT * FROM posts where
 df = pd.DataFrame(rows)
 print('\n\n fetch last hour tweets : \n\n')
 print(df.to_string(index=False))
+
+###________________________ fetch 1 last day (last 24 h) tweets __________________
+rows = session.execute(f"""SELECT * FROM posts where  
+                           year={current_year} AND month={current_month} AND
+                           day IN ({current_day-1},{current_day})""")
+df = pd.DataFrame(rows)
+print('\n\n fetch 1 last day (last 24 h) tweets : \n\n')
+print(df.to_string(index=False))
