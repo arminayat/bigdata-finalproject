@@ -8,6 +8,7 @@ Created on Fri Jun 30 12:05:01 2021
 from kafka import KafkaConsumer, KafkaProducer
 from cassandra.cluster import Cluster
 from datetime import datetime, timezone
+from json import loads, dumps
 import json
 import pprint
 
@@ -59,6 +60,29 @@ def cassandra_connection():
 
 session, cluster = cassandra_connection()
 
+session.set_keyspace('big_data_twits')
+for message in consumer:
+    tweet               = message.value
+    dtime               = tweet['created_at']
+    new_datetime        = datetime.strftime(datetime.strptime(dtime,'%a %b %d %H:%M:%S +0000 %Y'), '%Y-%m-%d %H:%M:%S')
+    date ,time          = new_datetime.split(' ')
+    year,month,day      = date.split('-')
+    hour,minute,second  = time.split(':')
+    id_str              = tweet['id_str']
+    hashtags_k          = tweet['hashtags_k']
+    keywords_k          = tweet['keywords_k']
 
-pprint.pprint(cluster.metadata.keyspaces)
-pprint.pprint(cluster.metadata.keyspaces['big_data_twits'].tables)
+    #____________________ insert to posts table _____________
+    session.execute("""INSERT INTO  posts (year,month,day,hour,minute,second,id) 
+                        VALUES (%s,%s,%s,%s,%s,%s,%s)""", [int(year),int(month),int(day),int(hour),int(minute),int(second),id_str])    
+     #____________________ insert to hashtags table _________
+    if(hashtags_k!=[]):
+        for tag in hashtags_k:
+            session.execute("""INSERT INTO  hashtags  (hashtag,year,month,day,hour,minute,second, id) 
+                               VALUES (%s,%s,%s,%s,%s,%s,%s,%s)""", [tag,int(year),int(month),int(day),int(hour),int(minute),int(second),id_str])
+    #____________________ insert to keywords table __________
+        for word in keywords_k:
+            session.execute("""INSERT INTO  key_words (keyword,year,month,day,hour,minute,second, id) 
+                               VALUES (%s,%s,%s,%s,%s,%s,%s,%s)""", [word,int(year),int(month),int(day),int(hour),int(minute),int(second),id_str])
+
+    print("tweet id: "+id_str+" added to cassandra")
