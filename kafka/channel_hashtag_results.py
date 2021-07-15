@@ -78,3 +78,21 @@ df = pd.DataFrame(rows)
 print('\n\n fetch specific hashtag in time range tweets : \n\n')
 print(df.to_string(index=False))
 
+#=========================== Accumulative queries ========================================
+###________________________ count of tweets for each day in last week __________________
+rows = session.execute(f"""SELECT count(*) FROM posts 
+                          year={current_year} AND month={current_month} AND 
+                          day IN ({current_day-6},{current_day-5},{current_day-4},{current_day-3},{current_day-2},{current_day-1},{current_day})
+                          GROUP BY year,month,day""")
+df = pd.DataFrame(rows)
+print('\n\n count of tweets for each day in last week : \n\n')
+print(df.to_string(index=False))
+
+###________________________ count of tweets for each day in last month __________________
+rows = session.execute(f"""SELECT count(*) FROM posts where
+                          year={current_year} AND month>={current_month-1} AND month<={current_month}
+                          GROUP BY year,month,day  
+                          ALLOW FILTERING""")
+df = pd.DataFrame(rows)
+print('\n\n count of tweets for each day in last month : \n\n')
+print(df.to_string(index=False))
