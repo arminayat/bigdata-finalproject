@@ -86,3 +86,10 @@ for message in consumer:
                                VALUES (%s,%s,%s,%s,%s,%s,%s,%s)""", [word,int(year),int(month),int(day),int(hour),int(minute),int(second),id_str])
 
     print("tweet id: "+id_str+" added to cassandra")
+
+
+######################## stream twits to static channel #######################
+
+for message in consumer:
+    twit = message.value
+    producer.send('static', value=twit)
