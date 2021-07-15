@@ -69,3 +69,12 @@ rows = session.execute(f"""SELECT * FROM posts where
 df = pd.DataFrame(rows)
 print('\n\n fetch 1 last day (last 24 h) tweets : \n\n')
 print(df.to_string(index=False))
+
+###________________________ fetch specific hashtag in time range tweets __________________
+rows = session.execute("""SELECT * FROM hashtags where hashtag='طالبان' AND
+                          year=2021 AND month=7 AND day in (10,11,12,13,14,15) AND
+                          hour IN (3,4)""")
+df = pd.DataFrame(rows)
+print('\n\n fetch specific hashtag in time range tweets : \n\n')
+print(df.to_string(index=False))
+
