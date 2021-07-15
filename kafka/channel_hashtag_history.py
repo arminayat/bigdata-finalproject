@@ -29,3 +29,12 @@ consumer = KafkaConsumer(
      group_id='twitter',
      value_deserializer=lambda x: loads(x.decode('utf-8')),
      api_version=(0,10))
+
+########################## cassandra connection #########################
+
+def cassandra_connection():
+    cluster = Cluster(['localhost'], port=9042)
+    session = cluster.connect()  
+    return session, cluster
+
+session, cluster = cassandra_connection()
