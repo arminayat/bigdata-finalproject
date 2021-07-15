@@ -15,7 +15,8 @@ from json import loads, dumps
 # Produce persistent data
 producer = KafkaProducer(bootstrap_servers=['localhost:29092'],
                          value_serializer=lambda x: 
-                         dumps(x).encode('utf-8'))
+                         dumps(x).encode('utf-8'),
+                         api_version=(0,10))
 
 
 consumer = KafkaConsumer(
@@ -25,7 +26,8 @@ consumer = KafkaConsumer(
      enable_auto_commit=True,
      auto_commit_interval_ms = 1000,
      group_id='twitter',
-     value_deserializer=lambda x: loads(x.decode('utf-8')))
+     value_deserializer=lambda x: loads(x.decode('utf-8')),
+     api_version=(0,10))
 
 
 

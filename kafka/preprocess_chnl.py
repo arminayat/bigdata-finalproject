@@ -172,7 +172,8 @@ def keyword_extraction(text, produce_idx):
 # Produce clean tweets
 producer = KafkaProducer(bootstrap_servers=['localhost:29092'],
                          value_serializer=lambda x: 
-                         dumps(x).encode('utf-8'))
+                         dumps(x).encode('utf-8'),
+                         api_version=(0,10))
 
 # Consume dirty tweets
 consumer = KafkaConsumer(
@@ -182,7 +183,8 @@ consumer = KafkaConsumer(
      enable_auto_commit=True,
      auto_commit_interval_ms = 1000, #ms # Ok. cuz our messages come every 5 seconds
      group_id='twitter',
-     value_deserializer=lambda x: loads(x.decode('utf-8')))
+     value_deserializer=lambda x: loads(x.decode('utf-8')),
+     api_version=(0,10))
 
 
 

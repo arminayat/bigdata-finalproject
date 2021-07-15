@@ -78,7 +78,7 @@ class stream_listener(StreamListener):
         
       
 
-producer = KafkaProducer(bootstrap_servers='localhost:29092')
+producer = KafkaProducer(bootstrap_servers='localhost:29092',api_version=(0,10))
 l = stream_listener()
 
 stream = Stream(auth, l)
