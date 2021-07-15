@@ -1,5 +1,46 @@
 version: '2'
 services:
+
+  cassandra:
+    image: cassandra:latest
+    container_name: cassandra
+    ports:
+      - "9042:9042"
+    environment:
+      - "MAX_HEAP_SIZE=256M"
+      - "HEAP_NEWSIZE=128M"
+    restart: always
+    volumes:
+      - ./docker_data/cassandra-data:/var/lib/cassandra
+
+  elasticsearch:
+    image: elasticsearch:7.12.1
+    container_name: elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    ulimits:
+      memlock: 
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      -  ./docker_data/elasticsearch-data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.12.1
+    container_name: kibana
+    ports:
+      - 5601:5601
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
@@ -10,7 +51,7 @@ services:
     volumes:
       - ./docker_data/zk-data:/var/lib/zookeeper/data
       - ./docker_data/zk-txn-logs:/var/lib/zookeeper/log 
-  
+
   kafka:
     image: confluentinc/cp-kafka:latest
     depends_on:
@@ -27,4 +68,19 @@ services:
       KAFKA_LOG_RETENTION_MS: 604800000
       KAFKA_LOG_RETENTION_CHECK_INTERVAL_MS: 302400000
     volumes:
+      
       - ./docker_data/kafka-data:/var/lib/kafka/data 
+    
+  clickhouse:
+    image: yandex/clickhouse-server:latest
+    hostname: clickhouse_1
+    container_name: clickhouse
+    ports: 
+      - 8123:8123
+      - 9000:9000
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    # depends_on:
+    #   - "zookeeper"

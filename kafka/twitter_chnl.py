@@ -5,6 +5,7 @@ Created on Thu Jun 24 19:10:58 2021
 @author: yaram
 """
 
+
 from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 from tweepy import Stream
@@ -30,10 +31,10 @@ produce_idx = 0
 ######################## Set Up Tweeter app ############################
 
 
-access_token = '1086007829469618176-8CJCE0z1Gr0dm9EaseZbBrbqFfyMEA'          
-access_token_secret =  '2e4emi6nPZ2gRoCAkzL9mfPARTbGq5qNcXkxXeif2pTw5' 
-api_key =   'fAbcl4V3tYHOaBfpxzOodTiP1'
-api_secret =  'lTU69KpsMGQKQ8pwLu9XMA7CEHT3Z57NqqynBzI9IkpQfXNhv3'
+access_token = '723604286333173760-XhbUSFTRBcBS4tUJxwmLijdyb503Awm'          
+access_token_secret =  '2aYieQez40V8rGBIdqpeN8ONZrCoyk0VnmdbkPC4secrR' 
+api_key =   '1EnLErbcBHsv4ajxMrlaVJI46'
+api_secret =  'VPvOSew0XlHXrIHHkO2q0uSkuWfE1wBBVwBhEcWd48ZhVBowqg'
 
 auth = OAuthHandler(api_key, api_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -45,16 +46,17 @@ auth.set_access_token(access_token, access_token_secret)
 
 class stream_listener(StreamListener):
     
+
     
     def on_data(self, data):
         global produce_idx
         
         json_ = json.loads(data) # String to Dict
-        #for attribute, value in json_.items():
-        #    print(attribute)
-        #    print(value)
-        #    input("********")
-        #input("*******************")
+        for attribute, value in json_.items():
+           print(attribute)
+           print(value)
+           input("********")
+        input("*******************")
         
         print(produce_idx)
         print(json_['text'])
@@ -66,11 +68,12 @@ class stream_listener(StreamListener):
         return True
     
     def on_error(self, status):
+        
         print (status)
         
       
 
-producer = KafkaProducer(bootstrap_servers='localhost:29092')
+producer = KafkaProducer(bootstrap_servers='localhost:29092',api_version=(0,10))
 l = stream_listener()
 
 stream = Stream(auth, l)

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jun 24 19:10:58 2021
+Created on Sat Jul 10 16:05:19 2021
 
-@author: zaha
+@author: z_hab
 """
 
 from kafka import KafkaConsumer, KafkaProducer
@@ -19,7 +19,7 @@ producer = KafkaProducer(bootstrap_servers=['localhost:29092'],
 
 
 consumer = KafkaConsumer(
-    'clean_tweets',
+    'persistance',
      bootstrap_servers=['localhost:29092'],
      auto_offset_reset= 'earliest', # 'earliest', # Start from last consumed, #'latest' start from last produce
      enable_auto_commit=True,
@@ -33,35 +33,14 @@ consumer = KafkaConsumer(
 ############### Insert data to elastic search here #####################
 
 
-# This loop will consume data forever
 
-    
-from elasticsearch import Elasticsearch
-
-    # If you want to produce something 
-    #producer.send('elastic', value=twit)
-    
-    
-    
-# Elastic search configuation
-
-es = Elasticsearch(HOST="http://localhost", PORT=9200)
-es = Elasticsearch()
 
 
 for message in consumer:
     
     twit = message.value
-    twittt = {k: twit[k] for k in ("created_at",'keywords_k','hashtags_k','text_k')}
-    hour = twittt["created_at"][11:13]
-    day = twittt["created_at"][8:10]
-    twittt['hour'] = hour 
-    twittt['day_k'] = day
-    index=es.index(index="twitttt", body=twittt)
-    print(twittt)
+
+    print(twit)
     
     print("*************************")
-    
-    producer.send('persistance', value=twit)
-   
     
