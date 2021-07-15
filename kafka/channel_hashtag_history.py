@@ -7,8 +7,9 @@ Created on Fri Jun 30 12:05:01 2021
 
 from kafka import KafkaConsumer, KafkaProducer
 from cassandra.cluster import Cluster
+from datetime import datetime, timezone
 import json
-
+import pprint
 
 
 ########################## Define Kafka clients #########################
@@ -57,3 +58,7 @@ def cassandra_connection():
     return session, cluster
 
 session, cluster = cassandra_connection()
+
+
+pprint.pprint(cluster.metadata.keyspaces)
+pprint.pprint(cluster.metadata.keyspaces['big_data_twits'].tables)
