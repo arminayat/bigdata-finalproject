@@ -51,10 +51,14 @@ df = pd.DataFrame(rows)
 print('\n\n fetch 1 last day (last 24 h) tweets : \n\n')
 print(df.to_string(index=False))
 
-###________________________ fetch specific hashtag in time range tweets __________________
-rows = session.execute("""SELECT * FROM hashtags where hashtag='طالبان' AND
-                          year=2021 AND month=7 AND day in (10,11,12,13,14,15) AND
-                          hour IN (3,4)""")
+###_______________________ fetch most common hashtag _________________
+rows = session.execute(f"""SELECT hashtag,count(*) as cnt FROM hashtags GROUP BY hashtag""")
+top_tag = pd.DataFrame(rows).sort_values('cnt',ascending=False).iloc[0]['hashtag']
+
+###_______________________ fetch specific hashtag in time range tweets _________________
+rows = session.execute(f"""SELECT * FROM hashtags where hashtag='{top_tag}' AND
+                          year=2021 AND month=7 AND day in (16,17,18,19,20,21,22) AND
+                          hour IN (7,8,9)""")
 df = pd.DataFrame(rows)
 print('\n\n fetch specific hashtag in time range tweets : \n\n')
 print(df.to_string(index=False))
