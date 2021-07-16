@@ -31,16 +31,16 @@ produce_idx = 0
 
 
 #____________________________yara___________________________________
-# access_token = '1086007829469618176-8CJCE0z1Gr0dm9EaseZbBrbqFfyMEA'          
-# access_token_secret =  '2e4emi6nPZ2gRoCAkzL9mfPARTbGq5qNcXkxXeif2pTw5' 
-# api_key =   'fAbcl4V3tYHOaBfpxzOodTiP1'
-# api_secret =  'lTU69KpsMGQKQ8pwLu9XMA7CEHT3Z57NqqynBzI9IkpQfXNhv3'
+access_token = '1086007829469618176-8CJCE0z1Gr0dm9EaseZbBrbqFfyMEA'          
+access_token_secret =  '2e4emi6nPZ2gRoCAkzL9mfPARTbGq5qNcXkxXeif2pTw5' 
+api_key =   'fAbcl4V3tYHOaBfpxzOodTiP1'
+api_secret =  'lTU69KpsMGQKQ8pwLu9XMA7CEHT3Z57NqqynBzI9IkpQfXNhv3'
 
 #____________________________nili___________________________________
-access_token = '723604286333173760-XhbUSFTRBcBS4tUJxwmLijdyb503Awm'          
-access_token_secret =  '2aYieQez40V8rGBIdqpeN8ONZrCoyk0VnmdbkPC4secrR' 
-api_key =   '1EnLErbcBHsv4ajxMrlaVJI46'
-api_secret =  'VPvOSew0XlHXrIHHkO2q0uSkuWfE1wBBVwBhEcWd48ZhVBowqg'
+#access_token = '723604286333173760-XhbUSFTRBcBS4tUJxwmLijdyb503Awm'          
+#access_token_secret =  '2aYieQez40V8rGBIdqpeN8ONZrCoyk0VnmdbkPC4secrR' 
+#api_key =   '1EnLErbcBHsv4ajxMrlaVJI46'
+#api_secret =  'VPvOSew0XlHXrIHHkO2q0uSkuWfE1wBBVwBhEcWd48ZhVBowqg'
 
 
 auth = OAuthHandler(api_key, api_secret)

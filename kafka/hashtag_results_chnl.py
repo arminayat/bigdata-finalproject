@@ -5,32 +5,13 @@ Created on Mon Jul 05 04:19:37 2021
 @author: nilam
 """
 
-from kafka import KafkaConsumer, KafkaProducer
+
 from datetime import datetime, timezone
 from cassandra.cluster import Cluster
 from json import loads, dumps
 import pandas as pd
 import json
 import pprint
-
-########################## Define Kafka clients #########################
-
-# Produce persistent data
-producer = KafkaProducer(bootstrap_servers=['localhost:29092'],
-                         value_serializer=lambda x: 
-                         dumps(x).encode('utf-8'),
-                         api_version=(0,10))
-
-
-consumer = KafkaConsumer(
-    'static',
-     bootstrap_servers=['localhost:29092'],
-     auto_offset_reset= 'earliest', # 'earliest', # Start from last consumed, #'latest' start from last produce
-     enable_auto_commit=True,
-     auto_commit_interval_ms = 1000,
-     group_id='twitter',
-     value_deserializer=lambda x: loads(x.decode('utf-8')),
-     api_version=(0,10))
 
 
 def cassandra_connection():    
@@ -80,7 +61,7 @@ print(df.to_string(index=False))
 
 #=========================== Accumulative queries ========================================
 ###________________________ count of tweets for each day in last week __________________
-rows = session.execute(f"""SELECT count(*) FROM posts 
+rows = session.execute(f"""SELECT count(*) FROM posts where
                           year={current_year} AND month={current_month} AND 
                           day IN ({current_day-6},{current_day-5},{current_day-4},{current_day-3},{current_day-2},{current_day-1},{current_day})
                           GROUP BY year,month,day""")

@@ -23,7 +23,7 @@ producer = KafkaProducer(bootstrap_servers=['localhost:29092'],
 
 
 consumer = KafkaConsumer(
-    'clean_tweets',
+    'persistance1',
      bootstrap_servers=['localhost:29092'],
      auto_offset_reset= 'earliest', # 'earliest', # Start from last consumed, #'latest' start from last produce
      enable_auto_commit=True,
@@ -58,10 +58,15 @@ def cassandra_connection():
 
     return session, cluster
 
-session, cluster = cassandra_connection()
 
+session, cluster = cassandra_connection()
 session.set_keyspace('big_data_twits')
+
+
+######################## stream twits to static channel #######################
+
 for message in consumer:
+
     tweet               = message.value
     dtime               = tweet['created_at']
     new_datetime        = datetime.strftime(datetime.strptime(dtime,'%a %b %d %H:%M:%S +0000 %Y'), '%Y-%m-%d %H:%M:%S')
@@ -87,9 +92,4 @@ for message in consumer:
 
     print("tweet id: "+id_str+" added to cassandra")
 
-
-######################## stream twits to static channel #######################
-
-for message in consumer:
-    twit = message.value
-    producer.send('static', value=twit)
+    producer.send('persistance2', value=tweet)
