@@ -66,7 +66,7 @@ def time_range_hashtag(yy,mm,dd_s,dd_e,hh_s,hh_e,tag):
 
     rows = session.execute(f"""SELECT * FROM hashtags where hashtag='{tag}' AND
                           year=2021 AND month=7 AND day in {days_interval} AND
-                          hour IN {hour_interval}""")
+                          hour IN {hour_interval} LIMIT 100""")
     df = pd.DataFrame(rows)
     print(f'\n\n fetch tweets have #{tag} hashtag by day in :({dd_s},{dd_e}) & hour in :({hh_s},{hh_e}) : \n\n')
     print(df.to_string(index=False))
@@ -78,7 +78,8 @@ time_range_hashtag(yy=2021,mm=current_month,dd_s=17,dd_e=25,hh_s=0,hh_e=9,tag=to
 ###________________________ count of tweets for each day in last week __________________
 rows = session.execute(f"""SELECT year,month,day,count(*) FROM posts where
                           year={current_year} AND month={current_month} AND 
-                          day IN ({current_day-6},{current_day-5},{current_day-4},{current_day-3},{current_day-2},{current_day-1},{current_day})
+                          day IN ({current_day-6},{current_day-5},{current_day-4},
+                                  {current_day-3},{current_day-2},{current_day-1},{current_day})
                           GROUP BY year,month,day""")
 df = pd.DataFrame(rows)
 print('\n\n count of tweets for each day in last week : \n\n')
