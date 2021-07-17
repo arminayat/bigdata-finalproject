@@ -71,24 +71,25 @@ for message in consumer:
     dtime               = tweet['created_at']
     new_datetime        = datetime.strftime(datetime.strptime(dtime,'%a %b %d %H:%M:%S +0000 %Y'), '%Y-%m-%d %H:%M:%S')
     date ,time          = new_datetime.split(' ')
-    year,month,day      = date.split('-')
-    hour,minute,second  = time.split(':')
+    year,month,day      = [ int(x) for x in date.split('-')]
+    hour,minute,second  = [ int(x) for x in time.split(':')]
     id_str              = tweet['id_str']
     hashtags_k          = tweet['hashtags_k']
     keywords_k          = tweet['keywords_k']
 
     #____________________ insert to posts table _____________
     session.execute("""INSERT INTO  posts (year,month,day,hour,minute,second,id) 
-                        VALUES (%s,%s,%s,%s,%s,%s,%s)""", [int(year),int(month),int(day),int(hour),int(minute),int(second),id_str])    
-     #____________________ insert to hashtags table _________
+                        VALUES (%s,%s,%s,%s,%s,%s,%s)""", [year,month,day,hour,minute,second,id_str])    
+    #____________________ insert to hashtags table _________
     if(hashtags_k!=[]):
         for tag in hashtags_k:
             session.execute("""INSERT INTO  hashtags  (hashtag,year,month,day,hour,minute,second, id) 
-                               VALUES (%s,%s,%s,%s,%s,%s,%s,%s)""", [tag,int(year),int(month),int(day),int(hour),int(minute),int(second),id_str])
+                               VALUES (%s,%s,%s,%s,%s,%s,%s,%s)""", [tag,year,month,day,hour,minute,second,id_str])
     #____________________ insert to keywords table __________
+    if(keywords_k!=[]):
         for word in keywords_k:
             session.execute("""INSERT INTO  key_words (keyword,year,month,day,hour,minute,second, id) 
-                               VALUES (%s,%s,%s,%s,%s,%s,%s,%s)""", [word,int(year),int(month),int(day),int(hour),int(minute),int(second),id_str])
+                               VALUES (%s,%s,%s,%s,%s,%s,%s,%s)""", [word,year,month,day,hour,minute,second,id_str])
 
     print("tweet id: "+id_str+" added to cassandra")
 
