@@ -43,7 +43,15 @@ def get_tweets_by_time():
     data = []
     for d in query_dates:
         data.extend(r.lrange(f"tweets:{d}", 1, -1))
-        
+
     resp = make_response(jsonify([loads(x.decode()) for x in data]), 200)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
+
+
+@app.route('/hashtags')
+def get_last_hour_hashtags():
+    keys = [x.decode().split(":")[1] for x in r.keys("last_hour_hashtags:*")]
+    resp = make_response(jsonify(keys), 200)
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
