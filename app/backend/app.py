@@ -55,3 +55,19 @@ def get_last_hour_hashtags():
     resp = make_response(jsonify(keys), 200)
     resp.headers['Access-Control-Allow-Origin'] = '*'
     return resp
+
+
+@app.route('/last-hashtags')
+def get_last_hashtags():
+    data = [x.decode() for x in r.lrange("last_hashtags", 0, -1)]
+    resp = make_response(jsonify(data), 200)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
+
+
+@app.route('/last-tweets')
+def get_last_tweets():
+    data = [loads(x.decode()) for x in r.lrange("last_tweets", 0, -1)]
+    resp = make_response(jsonify(data), 200)
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
