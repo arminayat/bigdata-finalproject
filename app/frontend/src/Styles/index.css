@@ -1,0 +1,64 @@
+html {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: Vazir !important;
+  box-sizing: border-box !important;
+}
+button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: 0;
+}
+
+.ant-form-item {
+  margin-bottom: 0;
+}
+
+@keyframes Gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.animated-gradient {
+  background: #ffa135; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    45deg,
+    #fe805c,
+    #fe805c,
+    #f46684,
+    #e85666,
+    #cf60a8,
+    #8f67be,
+    #4d70fa,
+    #276cbd
+  );
+  background: linear-gradient(
+    45deg,
+    #fe805c,
+    #fe805c,
+    #f46684,
+    #e85666,
+    #cf60a8,
+    #8f67be,
+    #4d70fa,
+    #276cbd
+  );
+  background-size: 400% 400%;
+  -webkit-animation: Gradient 15s ease infinite;
+  -moz-animation: Gradient 15s ease infinite;
+  animation: Gradient 15s ease infinite;
+}
