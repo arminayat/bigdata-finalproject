@@ -1,6 +1,5 @@
 version: '2'
 services:
-  
   cassandra:
     image: cassandra:latest
     container_name: cassandra
@@ -51,7 +50,11 @@ services:
     volumes:
       - ./docker_data/zk-data:/var/lib/zookeeper/data
       - ./docker_data/zk-txn-logs:/var/lib/zookeeper/log 
-  
+
+  redis:
+    image: redis
+    ports: 
+      - "6379:6379"
   
   clickhouse:
     image: yandex/clickhouse-server:latest
