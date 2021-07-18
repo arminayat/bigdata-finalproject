@@ -23,7 +23,7 @@ producer = KafkaProducer(bootstrap_servers=['localhost:29092'],
 
 
 consumer = KafkaConsumer(
-    'persistance1',
+    'clean_tweets',
      bootstrap_servers=['localhost:29092'],
      auto_offset_reset= 'earliest', # 'earliest', # Start from last consumed, #'latest' start from last produce
      enable_auto_commit=True,
@@ -86,10 +86,15 @@ for message in consumer:
             session.execute("""INSERT INTO  hashtags  (hashtag,year,month,day,hour,minute,second, id) 
                                VALUES (%s,%s,%s,%s,%s,%s,%s,%s)""", [tag,int(year),int(month),int(day),int(hour),int(minute),int(second),id_str])
     #____________________ insert to keywords table __________
+    if(keywords_k!=[]):
         for word in keywords_k:
             session.execute("""INSERT INTO  key_words (keyword,year,month,day,hour,minute,second, id) 
                                VALUES (%s,%s,%s,%s,%s,%s,%s,%s)""", [word,int(year),int(month),int(day),int(hour),int(minute),int(second),id_str])
 
     print("tweet id: "+id_str+" added to cassandra")
 
-    producer.send('persistance2', value=tweet)
+    producer.send('statistics', value=tweet)
+
+
+
+    

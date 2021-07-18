@@ -19,7 +19,7 @@ producer = KafkaProducer(bootstrap_servers=['localhost:29092'],
 
 
 consumer = KafkaConsumer(
-    'clean_tweets',
+    'persistance2',
      bootstrap_servers=['localhost:29092'],
      auto_offset_reset= 'earliest', # 'earliest', # Start from last consumed, #'latest' start from last produce
      enable_auto_commit=True,
@@ -34,7 +34,7 @@ consumer = KafkaConsumer(
 
 # Elastic search configuation
 
-es = Elasticsearch(HOST="http://localhost", PORT=9200)
+es = Elasticsearch(HOST=["http://localhost"], PORT=9200)
 es = Elasticsearch()
 
 # This loop will consume data forever
@@ -42,16 +42,19 @@ es = Elasticsearch()
 for message in consumer:
     
     twit = message.value
-    twittt = {k: twit[k] for k in ("created_at",'keywords_k','hashtags_k','text_k')}
+
+    twittt = {k: twit[k] for k in ("created_at",'keywords_k','hashtags_k','text_k', 'id_str')}
+    
     hour = twittt["created_at"][11:13]
     day = twittt["created_at"][8:10]
     twittt['hour'] = hour 
     twittt['day_k'] = day
-    index=es.index(index="twitttt", body=twittt)
     print(twittt)
+    index=es.index(index="twitttt", body=twittt)
+    
     
     print("*************************")
     
-    producer.send('persistance1', value=twit)
+    producer.send('history', value=twit)
    
     

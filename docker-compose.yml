@@ -1,6 +1,16 @@
 version: '2'
 services:
-  
+
+
+  spark:
+    image: jupyter/pyspark-notebook
+    container_name: spark
+    ports:
+      - 8888:8888
+    volumes:
+      - ./docker_data/spark-data:/home/jovyan/work
+
+
   cassandra:
     image: cassandra:latest
     container_name: cassandra
@@ -32,14 +42,6 @@ services:
       -  ./docker_data/elasticsearch-data:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
-      
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.12.1
-    container_name: kibana
-    ports:
-      - 5601:5601
-    environment:
-      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
   
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -51,21 +53,6 @@ services:
     volumes:
       - ./docker_data/zk-data:/var/lib/zookeeper/data
       - ./docker_data/zk-txn-logs:/var/lib/zookeeper/log 
-  
-  
-  clickhouse:
-    image: yandex/clickhouse-server:latest
-    hostname: clickhouse
-    container_name: clickhouse
-    ports: 
-      - 8123:8123
-      - 9000:9000
-    ulimits:
-      nofile:
-        soft: 262144
-        hard: 262144
-    # depends_on:
-    #   - "zookeeper"
 
   kafka:
     image: confluentinc/cp-kafka:latest

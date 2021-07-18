@@ -57,9 +57,10 @@ top_tag = pd.DataFrame(rows).sort_values('cnt',ascending=False).iloc[0]['hashtag
 
 ###_______________________ fetch specific hashtag in time range tweets _________________
 rows = session.execute(f"""SELECT * FROM hashtags where hashtag='{top_tag}' AND
-                          year=2021 AND month=7 AND day in (16,17,18,19,20,21,22) AND
-                          hour IN (7,8,9)""")
+                          year=2021 AND month=7 AND day in (16,17,18,19,20,21,22)""")
 df = pd.DataFrame(rows)
+
+print("__________")
 print('\n\n fetch specific hashtag in time range tweets : \n\n')
 print(df.to_string(index=False))
 

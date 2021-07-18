@@ -76,6 +76,9 @@ class stream_listener(StreamListener):
     def on_error(self, status):
         print (status)
         
+        time.sleep(2 * 60)
+        return True
+        
       
 
 producer = KafkaProducer(bootstrap_servers='localhost:29092',api_version=(0,10))

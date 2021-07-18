@@ -215,7 +215,7 @@ try:
                 
         print("*************************")
         
-        producer.send('clean_tweets', value=json_)
+        producer.send('persistance', value=json_)
     
 except KeyboardInterrupt:
     print('Interrupting! Saving Corpus...')
