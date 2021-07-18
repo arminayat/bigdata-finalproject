@@ -1,7 +1,5 @@
 version: '2'
 services:
-
-
   spark:
     image: jupyter/pyspark-notebook
     container_name: spark
@@ -53,6 +51,25 @@ services:
     volumes:
       - ./docker_data/zk-data:/var/lib/zookeeper/data
       - ./docker_data/zk-txn-logs:/var/lib/zookeeper/log 
+
+  redis:
+    image: redis
+    ports: 
+      - "6379:6379"
+  
+  clickhouse:
+    image: yandex/clickhouse-server:latest
+    hostname: clickhouse
+    container_name: clickhouse
+    ports: 
+      - 8123:8123
+      - 9000:9000
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    # depends_on:
+    #   - "zookeeper"
 
   kafka:
     image: confluentinc/cp-kafka:latest
