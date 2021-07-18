@@ -5,14 +5,18 @@ import redis
 
 
 consumer = KafkaConsumer(
-    'clean_tweets',
+    'statistics',
     bootstrap_servers=['localhost:29092'],
-    # 'earliest', # Start from last consumed, #'latest' start from last produce
     auto_offset_reset='earliest',
     enable_auto_commit=True,
     auto_commit_interval_ms=1000,
     group_id='twitter',
     value_deserializer=lambda x: loads(x.decode('utf-8')))
+
+producer = KafkaProducer(bootstrap_servers=['localhost:29092'],
+                         value_serializer=lambda x:
+                         dumps(x).encode('utf-8'),
+                         api_version=(0, 10))
 
 r = redis.Redis(host='localhost', port=6379)
 
@@ -56,3 +60,5 @@ for msg in consumer:
     store_last_hashtags(tweet)
     store_last_tweets(tweet)
     print("stored tweet with id " + str(tweet["id"]))
+
+    producer.send('analytics', value=tweet)
