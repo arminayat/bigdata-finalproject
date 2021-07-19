@@ -27,6 +27,7 @@ services:
     environment:
       - xpack.security.enabled=false
       - discovery.type=single-node
+      - "ES_JAVA_OPTS: -Xms512m -Xmx512m"
     ulimits:
       memlock: 
         soft: -1
@@ -85,6 +86,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_LOG_RETENTION_MS: 604800000
-      KAFKA_LOG_RETENTION_CHECK_INTERVAL_MS: 302400000
+      KAFKA_LOG_RETENTION_CHECK_INTERVAL_MS: 30240000
+      KAFKA_HEAP_OPTS: "-Xmx400M -Xmx400M"
     volumes:
       - ./docker_data/kafka-data:/var/lib/kafka/data 
