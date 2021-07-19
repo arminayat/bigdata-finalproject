@@ -8,6 +8,11 @@ flask = "*"
 redis = "*"
 kafka-python = "*"
 celery = "*"
+tweepy = "*"
+sklearn = "*"
+hazm = "*"
+elasticsearch = "*"
+cassandra-driver = "*"
 
 [dev-packages]
 
