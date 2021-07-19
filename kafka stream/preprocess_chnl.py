@@ -215,7 +215,7 @@ try:
                 
         print("*************************")
         
-        producer.send('persistance', value=json_)
+        producer.send('history', value=json_)
     
 except KeyboardInterrupt:
     print('Interrupting! Saving Corpus...')
