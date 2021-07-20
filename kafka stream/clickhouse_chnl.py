@@ -21,7 +21,7 @@ producer = KafkaProducer(bootstrap_servers=['localhost:29092'],
  
  
 consumer = KafkaConsumer( 
-    'Analytics', 
+    'analytics', 
      bootstrap_servers=['localhost:29092'], 
      auto_offset_reset= 'earliest', # 'earliest', # Start from last consumed, #'latest' start from last produce 
      enable_auto_commit=True, 
