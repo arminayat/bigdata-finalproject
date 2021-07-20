@@ -58,19 +58,17 @@ print(df)
 
 ##___________________________ show users table _____________________________
 
-#users    = client.execute('SELECT * FROM Big_analytics.users LIMIT 10')
-#cnt      = client.execute('SELECT count(*) FROM Big_analytics.users')
-#df       = pd.DataFrame(users)
-#print(f'\n\n users table :(# of db cols : {cnt[0][0]}) \n\n')
-#print(df)
+users    = client.execute('SELECT * FROM Big_analytics.users LIMIT 10')
+cnt      = client.execute('SELECT count(*) FROM Big_analytics.users')
+df       = pd.DataFrame(users)
+print(f'\n\n users table :(# of db cols : {cnt[0][0]}) \n\n')
+print(df)
 
 ##------------------------------------------------------------------!
 ##     for large data size we don't use pandas for reporting
 ##------------------------------------------------------------------!
 # for twit in users:
     # print(twit)
-
-
 
 #########################################################################
 #########################      SAND BOX         #########################
