@@ -1,0 +1,143 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Jul 18 22:27:34 2021
+
+@author: z_hab
+"""
+
+###-----------------------------------------------------------
+###------ queries twits in kibana --------------
+###-----------------------------------------------------------
+
+###________________________ persian_analize(stop_word,tokenizer) __________________
+
+put /twitttt
+{
+ "settings": {
+    "analysis": {
+      "char_filter": {
+        "zero_width_spaces": {
+            "type":       "mapping",
+           "mappings": [ "\\u200C=>\\u0020"] 
+       }
+     },
+     "filter": {
+       "persian_stop": {
+         "type":       "stop",
+         "stopwords":  "_persian_" 
+       }
+     },
+     "analyzer": {
+       "rebuilt_persian": {
+        "tokenizer":     "standard",
+        "char_filter": [ "zero_width_spaces" ],
+        "filter": [
+          "lowercase",
+          "decimal_digit",
+          "arabic_normalization",
+          "persian_normalization",
+          "persian_stop"
+        ]
+      }
+    }
+ }
+ }
+}
+
+
+
+
+###________________________ last 10 text ________________
+
+GET twitttt/_search
+{
+  "size": 10, 
+  "fields": ["text_k.keyword"], 
+  "sort": [
+    {
+      "day_k.keyword": {
+        "order": "desc"
+      }
+    }
+  ]
+}
+
+
+
+
+    
+    
+###________________________ all posts of tweets for specific hashtag ________________
+
+GET  /twitttt/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "range": {
+            "day_k": {
+               "gte": "11",
+               "lte": "12"
+            }
+          }
+        },
+        {
+          "term": {
+            "hashtags_k": {
+              "value": "نجابت_ایرانی"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+
+###________________________count of tweets for specific hashtag __________________
+
+GET /twitttt/_search
+{
+  "query": {
+    "range": {
+       "day_k": {
+               "gte": "11",
+               "lte": "12"
+      }
+    }
+  },
+
+  "size":0,
+  "aggs": {
+    "source": {
+      "terms": {
+        "field": "hashtags_k.keyword",
+        "size": 100000
+      }
+    }
+  }
+ }
+
+
+
+
+GET /twitttt/_search
+{
+  "query": {
+    "range": {
+       "day_k": {
+               "gte": "11",
+               "lte": "12"
+      }
+    }
+  },
+"size": 0, 
+ "aggs": {
+        "source" : {
+            "filter" : { 
+              "term": { 
+                "hashtags_k.keyword": "ایران"}}
+            
+            }}}

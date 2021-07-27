@@ -37,7 +37,8 @@ def store_tweet_by_time(tweet):
 def store_last_hour_hashtags(tweet):
     hashtags = tweet["hashtags_k"]
     for hashtag in hashtags:
-        r.set(f"last_hour_hashtags:{hashtag}", hashtag, ex=60 * 60, nx=True)
+        r.set(f"last_hour_hashtags:{hashtag}", hashtag, nx=True)
+        r.expire(f"last_hour_hashtags:{hashtag}", 60 * 60)
 
 
 def store_last_hashtags(tweet):

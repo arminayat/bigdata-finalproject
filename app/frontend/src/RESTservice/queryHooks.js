@@ -11,6 +11,11 @@ const fetchLastHashtags = async () => {
   console.log("fetchLastHashtags", { data });
   return data;
 };
+const fetchKeywords = async () => {
+  const { data } = await API.get("/keywords");
+  console.log("fetchKeyboards", { data });
+  return data;
+};
 const fetchLastHourHashtags = async () => {
     const { data } = await API.get("/hashtags");
     console.log("fetchLastHourHashtags", { data });
@@ -30,6 +35,9 @@ const queryHooks = {
   },
   useGetLastHashtags: (options) => {
     return useQuery("lastHashtags", fetchLastHashtags, options);
+  },
+  useGetKeywords: (options) => {
+    return useQuery("keywords", fetchKeywords, options);
   },
   useGetLastHourHashtags: (options) => {
     return useQuery("lastHourHashtags", fetchLastHourHashtags, options);

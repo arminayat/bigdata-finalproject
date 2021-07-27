@@ -1,5 +1,3 @@
-# Kafka streaming
+# A real time BigData system for analysis of online Persian Twitter data
 
-Kafka server is set-up on docker. 
-producer.py streams live data from twitter.
-consumer.py provides data for ElasticSearch.
+![Schematic](https://github.com/arminayat/bigdata-finalproject/blob/main/schematic.png)

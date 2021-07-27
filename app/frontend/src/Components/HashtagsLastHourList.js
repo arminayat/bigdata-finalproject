@@ -1,4 +1,4 @@
-import { List } from "antd";
+import { List, Row } from "antd";
 import queryHooks from "../RESTservice/queryHooks";
 import Card from "./Card";
 
@@ -6,7 +6,11 @@ const HashtagsLastHourList = () => {
   const { data, isFetching } = queryHooks.useGetLastHourHashtags();
   return (
     <>
-      <h2 style={{ color: "#fff" }}>هشتگ‌های یکساعت‌ اخیر</h2>
+      <Row justify="space-between" align="bottom">
+        <h2 style={{ color: "#fff" }}>هشتگ‌های یکساعت‌ اخیر</h2>
+        <p style={{ color: "#fff" }}>{`تعداد ${data?.length}`}</p>
+      </Row>
+
       <Card>
         <List
           dataSource={data}
