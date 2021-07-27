@@ -1,12 +1,12 @@
 version: '2'
 services:
-  spark:
-    image: jupyter/pyspark-notebook
-    container_name: spark
-    ports:
-      - 8888:8888
-    volumes:
-      - ./docker_data/spark-data:/home/jovyan/work
+        #  spark:
+        #    image: jupyter/pyspark-notebook
+        #    container_name: spark
+        #    ports:
+        #      - 8888:8888
+        #    volumes:
+        #      - ./docker_data/spark-data:/home/jovyan/work
 
 
   cassandra:
@@ -21,26 +21,26 @@ services:
     volumes:
       - ./docker_data/cassandra-data:/var/lib/cassandra
 
-  elasticsearch:
-    image: elasticsearch:7.12.1
-    container_name: elasticsearch
-    environment:
-      - xpack.security.enabled=false
-      - discovery.type=single-node
-      - "ES_JAVA_OPTS: -Xms512m -Xmx512m"
-    ulimits:
-      memlock: 
-        soft: -1
-        hard: -1
-      nofile:
-        soft: 65536
-        hard: 65536
-    cap_add:
-      - IPC_LOCK
-    volumes:
-      -  ./docker_data/elasticsearch-data:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
+        #  elasticsearch:
+        #    image: elasticsearch:7.12.1
+        #    container_name: elasticsearch
+        #    environment:
+        #      - xpack.security.enabled=false
+        #      - discovery.type=single-node
+        #      - "ES_JAVA_OPTS: -Xms512m -Xmx512m"
+        #    ulimits:
+        #      memlock: 
+        #        soft: -1
+        #        hard: -1
+        #      nofile:
+        #        soft: 65536
+        #        hard: 65536
+        #    cap_add:
+        #      - IPC_LOCK
+        #    volumes:
+        #      -  ./docker_data/elasticsearch-data:/usr/share/elasticsearch/data
+        #    ports:
+        #      - 9200:9200
   
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -58,7 +58,7 @@ services:
     ports: 
       - "6379:6379"
   
-    clickhouse:
+  clickhouse:
     image: yandex/clickhouse-server:latest
     hostname: clickhouse
     container_name: clickhouse
