@@ -7,7 +7,7 @@ Created on Thu Jun 24 19:10:58 2021
 
 from kafka import KafkaConsumer, KafkaProducer
 from json import loads, dumps
-from elasticsearch import Elasticsearch
+#from elasticsearch import Elasticsearch
 
 ########################## Define Kafka clients #########################
 
@@ -34,8 +34,8 @@ consumer = KafkaConsumer(
 
 # Elastic search configuation
 
-es = Elasticsearch(HOST=["http://localhost"], PORT=9200)
-es = Elasticsearch()
+#es = Elasticsearch(HOST=["http://localhost"], PORT=9200)
+#es = Elasticsearch()
 
 # This loop will consume data forever
 
@@ -50,7 +50,7 @@ for message in consumer:
     twittt['hour'] = hour 
     twittt['day_k'] = day
     print(twittt)
-    index=es.index(index="twitttt", body=twittt)
+#    index=es.index(index="twitttt", body=twittt)
     
     
     print("*************************")
